@@ -27,8 +27,8 @@ export class Patcher extends EventEmitter {
 	}
 
 	versionCompare (a, b) {
-		if (!a) return -1;
-		if (!b) return 1;
+		if (!a || !a.version) return -1;
+		if (!b || !b.version) return 1;
 
 		let _a = a.version.split('.');
 		let _b = b.version.split('.');
