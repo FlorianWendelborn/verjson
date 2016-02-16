@@ -27,6 +27,9 @@ export class Patcher extends EventEmitter {
 	}
 
 	versionCompare (a, b) {
+		if (!a) return -1;
+		if (!b) return 1;
+
 		let _a = a.version.split('.');
 		let _b = b.version.split('.');
 
@@ -69,6 +72,10 @@ export class Patcher extends EventEmitter {
 	}
 
 	applyAction (preset, action) {
+		let _keyArray;
+		let _keys;
+		let _pointer;
+
 		switch (action.type) {
 			case 'move':
 				let fromKeys = action.from.split('.');   // from is in format key.key.key
@@ -97,19 +104,71 @@ export class Patcher extends EventEmitter {
 				});
 			break;
 			case 'remove':
-				let _keys = action.key.split('.');
-				let pointer = preset;
+				_keys = action.key.split('.');
+				_pointer = preset;
 
 				_keys.forEach((key, index) => {
-					let save = pointer[key];
+					let save = _pointer[key];
 					if (save == null) {
 						return;
 					}
 					if (index === _keys.length - 1) {
-						delete pointer[key];
+						delete _pointer[key];
 					}
-					pointer = save;
+					_pointer = save;
 				});
+			break;
+			case 'create':
+				_keyArray = action.keys;
+				if (!_keyArray) {
+					_keyArray = {};
+					_keyArray[action.key] = action.value;
+				}
+
+				for (let actionKey in _keyArray) {
+					_keys = actionKey.split('.');
+					_pointer = preset;
+
+					_keys.forEach((key, index) => {
+						if (index === _keys.length - 1) {
+							_pointer[key] = _keyArray[actionKey] || {};
+						} else {
+							if (_pointer[key] == null) {
+								_pointer[key] = {};
+							}
+							_pointer = _pointer[key];
+						}
+					});
+				}
+			break;
+			case 'add-to-array':
+				_keyArray = action.keys;
+				if (!_keyArray) {
+					_keyArray = {};
+					_keyArray[action.key] = action.value;
+				}
+
+				for (let actionKey in _keyArray) {
+					_keys = actionKey.split('.');
+					_pointer = preset;
+
+					_keys.forEach((key, index) => {
+						if (index === _keys.length - 1) {
+							if (_pointer[key]) {
+								if (!_pointer[key].length) {
+									_pointer[key].push(_keyArray[actionKey]);
+								}
+							} else {
+								_pointer[key] = [_keyArray[actionKey]];
+							}
+						} else {
+							if (_pointer[key] == null) {
+								_pointer[key] = {};
+							}
+							_pointer = _pointer[key];
+						}
+					});
+				}
 			break;
 			case 'custom':
 				preset = action.run(preset);

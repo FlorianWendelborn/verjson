@@ -4,9 +4,23 @@ var patcher = new verjson.Patcher({
 	formats: {
 		'1.0.5': [
 			{
-				type: 'custom',
-				run: function (old) {
-					return old;
+				type: 'create',
+				value: 'NEW',
+				key: 'something.new'
+			}, {
+				type: 'create',
+				keys: {
+					woah: {
+						info: 'Objects!'
+					}
+				}
+			}
+		],
+		'2.0.0': [
+			{
+				type: 'add-to-array',
+				keys: {
+					array: 'arrayData'
 				}
 			}
 		],
@@ -42,6 +56,7 @@ var oldJSON = {
 	version: '0.0.1',
 	key: 'A',
 	value: 'attack',
+	array: [],
 	complexData: {
 		key: {
 			value: "test"
