@@ -69,6 +69,8 @@ export class Patcher extends EventEmitter {
 				}
 			}
 		});
+
+		return preset;
 	}
 
 	applyAction (preset, action) {
