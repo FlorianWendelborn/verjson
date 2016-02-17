@@ -133,7 +133,9 @@ export class Patcher extends EventEmitter {
 
 					_keys.forEach((key, index) => {
 						if (index === _keys.length - 1) {
-							_pointer[key] = _keyArray[actionKey] || {};
+							if (_pointer[key] == null) {
+								_pointer[key] = _keyArray[actionKey] || {};
+							}
 						} else {
 							if (_pointer[key] == null) {
 								_pointer[key] = {};

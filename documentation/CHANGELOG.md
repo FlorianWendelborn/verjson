@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.5
+- fixed `create` overwriting already-set values
+
 ## 0.0.4
 - fixed `run` not returning the updated JSON
 
