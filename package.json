@@ -1,6 +1,6 @@
 { "name": "verjson"
 , "description": "Applies format changes to keep old jsons compatible."
-, "version": "0.0.5"
+, "version": "0.0.6"
 , "license": "MIT"
 , "author": "Florian Wendelborn"
 , "main": "build/index.js"

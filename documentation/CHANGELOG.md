@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.6 (2015.03.28-21.23)
+- won't attempt to patch the same version the preset already has
+
 ## 0.0.5
 - fixed `create` overwriting already-set values
 

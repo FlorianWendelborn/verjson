@@ -50,7 +50,7 @@ export class Patcher extends EventEmitter {
 
 	run (preset) {
 		this.formats.forEach((format, formatIndex) => {
-			if (this.versionCompare(preset, format) !== 1) {
+			if (this.versionCompare(preset, format) === -1) {
 				format.actions.forEach((action, actionIndex) => {
 					preset = this.applyAction(preset, action);
 				});
